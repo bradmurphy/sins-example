@@ -5,21 +5,20 @@ import { Context } from './store/store';
 import AddSin from './components/AddSin';
 import Sin from './components/Sin';
 
-
 function App() {
   const [newSinText, setNewSinText] = useState('');
   const [state, dispatch] = useContext(Context);
   const { sins } = state;
 
   const onChangeCheckbox = (e) => {
-     // Get UID from checkbox.
+    // Get UID from checkbox.
     const uid = e.target.getAttribute('data-uid');
     // Map over sins, if sin matches the same UID, change value.
     const updatedSins = sins.map((sin) => {
       if (sin.uid === uid) {
         sin.value = !sin.value;
       }
-      return sin ;
+      return sin;
     });
 
     // Update sins state.
@@ -36,23 +35,23 @@ function App() {
 
     // Update sins state.
     dispatch({ type: 'UPDATE_SINS', payload: filteredSins });
-  }
+  };
 
   const addSin = () => {
     // Populate new sin object
     const newSin = {
       value: false,
       label: newSinText,
-      uid: uuidv4()
+      uid: uuidv4(),
     };
     // Add new sin to sins array
-    const updatedSins = [ ...sins, newSin ];
+    const updatedSins = [...sins, newSin];
 
     // Update sins state.
     dispatch({ type: 'UPDATE_SINS', payload: updatedSins });
     // Reset sin text once added.
     setNewSinText('');
-  }
+  };
 
   const addSinsForToday = () => {
     // Get active sins
@@ -67,9 +66,15 @@ function App() {
 
   return (
     <div className="App">
-      {sins.length > 0 && sins.map((sin) => 
-        <Sin {...sin} key={sin.uid} onChangeCheckbox={onChangeCheckbox} deleteSin={deleteSin} />  
-      )}
+      {sins.length > 0 &&
+        sins.map((sin) => (
+          <Sin
+            {...sin}
+            key={sin.uid}
+            onChangeCheckbox={onChangeCheckbox}
+            deleteSin={deleteSin}
+          />
+        ))}
       <AddSin onChangeText={onChangeText} addSin={addSin} value={newSinText} />
       <button onClick={addSinsForToday}>Add Sins for Today</button>
     </div>
