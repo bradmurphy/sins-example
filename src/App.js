@@ -54,12 +54,24 @@ function App() {
     setNewSinText('');
   }
 
+  const addSinsForToday = () => {
+    // Get active sins
+    const activeSins = sins.filter((sin) => sin.value);
+
+    // Steps:
+    // 1. Check what day of the week it is.
+    // 2. Push active sins to the current day array.
+
+    console.table(activeSins);
+  };
+
   return (
     <div className="App">
       {sins.length > 0 && sins.map((sin) => 
         <Sin {...sin} key={sin.uid} onChangeCheckbox={onChangeCheckbox} deleteSin={deleteSin} />  
       )}
       <AddSin onChangeText={onChangeText} addSin={addSin} value={newSinText} />
+      <button onClick={addSinsForToday}>Add Sins for Today</button>
     </div>
   );
 }
