@@ -1,6 +1,6 @@
 import './App.css';
 import { v4 as uuidv4 } from 'uuid';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Context } from './store/store';
 import AddSin from './components/AddSin';
 import Sin from './components/Sin';
@@ -62,7 +62,19 @@ function App() {
     // 2. Push active sins to the current day array.
 
     console.table(activeSins);
+    dispatch({ type: 'CLEAR_SINS' });
   };
+
+  useEffect(() => {
+    dispatch({
+      type: 'MOUNT_STATE',
+      payload: JSON.parse(window.localStorage.getItem('state')),
+    });
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem('state', JSON.stringify(state));
+  }, [state]);
 
   return (
     <div className="App">
